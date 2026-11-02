@@ -47,7 +47,7 @@ function getHeader(activePage = 'accueil') {
     const activeClasses = isActive
       ? 'text-slate-950 font-extrabold text-2xl border-l-4 border-amber-500 pl-4 py-3 bg-amber-50/80 rounded-r-2xl'
       : 'text-slate-900 hover:text-amber-600 font-bold text-xl pl-4 py-3 hover:bg-slate-50 rounded-xl transition-all border-l-4 border-transparent hover:border-amber-400';
-    return `<a href="${item.href}" class="block mobile-nav-link ${activeClasses}">${item.label}</a>`;
+    return `<a href="${item.href}" onclick="window.closeMobileMenu();" class="block mobile-nav-link ${activeClasses}">${item.label}</a>`;
   }).join('\n');
 
   return `
@@ -97,8 +97,8 @@ function getHeader(activePage = 'accueil') {
         </div>
 
         <!-- Mobile Menu Toggle Button -->
-        <button id="mobileMenuBtn" type="button" aria-label="Ouvrir le menu" class="lg:hidden p-2.5 rounded-xl text-slate-800 hover:text-slate-950 hover:bg-slate-100 focus:outline-none border border-slate-200">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button id="mobileMenuBtn" onclick="window.openMobileMenu();" type="button" aria-label="Ouvrir le menu" class="lg:hidden p-2.5 rounded-xl text-slate-800 hover:text-slate-950 hover:bg-slate-100 focus:outline-none border border-slate-200 cursor-pointer">
+          <svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
@@ -111,11 +111,11 @@ function getHeader(activePage = 'accueil') {
       
       <!-- Top Bar inside Mobile Menu -->
       <div class="flex items-center justify-between pb-5 border-b border-slate-200">
-        <a href="index.html" class="flex items-center">
+        <a href="index.html" class="flex items-center" onclick="window.closeMobileMenu();">
           <img src="assets/img/logo-removebg.png" alt="Pure Elegance Agency" class="h-14 sm:h-16 w-auto object-contain luxury-gold-logo">
         </a>
-        <button id="closeMobileMenuBtn" type="button" aria-label="Fermer le menu" class="w-11 h-11 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 hover:text-slate-950 flex items-center justify-center transition-colors">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+        <button id="closeMobileMenuBtn" onclick="window.closeMobileMenu();" type="button" aria-label="Fermer le menu" class="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 active:bg-slate-300 border border-slate-200 text-slate-800 hover:text-slate-950 flex items-center justify-center transition-colors cursor-pointer select-none">
+          <svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
@@ -518,7 +518,7 @@ const indexContent = `
         
         <!-- Photo 1: Hôtesses d'accueil VIP -->
         <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-slate-100 border border-slate-200/90 group cursor-pointer lightbox-trigger shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-end relative" data-img="assets/img/activites/realisation-1.jpg" data-caption="Hôtesses d'Accueil VIP Pure Elegance - Protocole Événementiel">
-          <img src="assets/img/activites/realisation-1.jpg" alt="Hôtesses d'Accueil VIP" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+          <img src="assets/img/activites/realisation-1.jpg" alt="Hôtesses d'Accueil VIP" loading="eager" decoding="async" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent p-4">
             <h3 class="text-white font-bold text-sm">Hôtesses d'Accueil VIP</h3>
             <p class="text-amber-300 text-xs">Accueil de prestige & protocole</p>
@@ -527,7 +527,7 @@ const indexContent = `
 
         <!-- Photo 2: Modèle & Présence de Prestige -->
         <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-slate-100 border border-slate-200/90 group cursor-pointer lightbox-trigger shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-end relative" data-img="assets/img/activites/realisation-2.jpg" data-caption="Mannequinat & Présence de Prestige - Événements & Shootings">
-          <img src="assets/img/activites/realisation-2.jpg" alt="Modèle de Prestige" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+          <img src="assets/img/activites/realisation-2.jpg" alt="Modèle de Prestige" loading="eager" decoding="async" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent p-4">
             <h3 class="text-white font-bold text-sm">Modèles & Mannequinat</h3>
             <p class="text-amber-300 text-xs">Shootings & lancements de marque</p>
@@ -536,7 +536,7 @@ const indexContent = `
 
         <!-- Photo 3: Soirée de Gala & Réception VIP -->
         <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-slate-100 border border-slate-200/90 group cursor-pointer lightbox-trigger shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-end relative" data-img="assets/img/activites/realisation-3.jpg" data-caption="Soirée de Gala & Réception d'Honneur - Staffing Événementiel">
-          <img src="assets/img/activites/realisation-3.jpg" alt="Soirée de Gala VIP" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+          <img src="assets/img/activites/realisation-3.jpg" alt="Soirée de Gala VIP" loading="eager" decoding="async" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent p-4">
             <h3 class="text-white font-bold text-sm">Soirées de Gala VIP</h3>
             <p class="text-amber-300 text-xs">Tenues d'honneur & salons privés</p>
@@ -545,7 +545,7 @@ const indexContent = `
 
         <!-- Photo 4: Coordination & Équipe Terrain -->
         <div class="rounded-2xl overflow-hidden aspect-[3/4] bg-slate-100 border border-slate-200/90 group cursor-pointer lightbox-trigger shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-end relative" data-img="assets/img/activites/realisation-4.jpg" data-caption="Coordination & Accueil sur le Terrain - Pure Elegance Agency">
-          <img src="assets/img/activites/realisation-4.jpg" alt="Coordination Terrain" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+          <img src="assets/img/activites/realisation-4.jpg" alt="Coordination Terrain" loading="eager" decoding="async" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
           <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent p-4">
             <h3 class="text-white font-bold text-sm">Coordination Terrain</h3>
             <p class="text-amber-300 text-xs">Encadrement des équipes & flux</p>
