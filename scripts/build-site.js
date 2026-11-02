@@ -5,12 +5,19 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 
-// Professional SVG Icons (NO EMOJIS)
+// Professional SVG Icons (NO EMOJIS, HIGH LUXURY & ACCURATE)
 const ICONS = {
-  mannequin: `<svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
-  hotesse: `<svg class="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>`,
-  serveur: `<svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>`,
-  traiteur: `<svg class="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+  // Haute Couture & Mannequins : Étoile / Éclat Runway Diamant
+  mannequin: `<svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>`,
+  
+  // Hôtesses d'Accueil VIP : Protocole, Accueil d'Honneur & Listing VIP
+  hotesse: `<svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`,
+  
+  // Serveurs & Bar d'Élite : Verre à Cocktail / Coupe Martini Prestige
+  serveur: `<svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 21h8m-4-7v7M4 4h16l-8 8-8-8z"/></svg>`,
+  
+  // Service Traiteur Gastronomique : Cloche de Service Raffinée
+  traiteur: `<svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 4v2m0 0a8 8 0 018 8H4a8 8 0 018-8zm-9 10h18a1 1 0 011 1v1a1 1 0 01-1 1H3a1 1 0 01-1-1v-1a1 1 0 011-1z"/><circle cx="12" cy="3" r="1" fill="currentColor"/></svg>`,
   whatsapp: `<svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>`,
   email: `<svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>`,
   phone: `<svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>`,
@@ -71,9 +78,9 @@ function getHeader(activePage = 'accueil') {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
-        <!-- Logo Officiel Pure Elegance (Remove BG Transparent) -->
-        <a href="index.html" class="flex items-center py-1.5 group">
-          <img src="assets/img/logo-removebg.png" alt="Pure Elegance Agency" class="h-14 sm:h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-200">
+        <!-- Logo Officiel Pure Elegance (Or Pur Éclatant) -->
+        <a href="index.html" class="flex items-center py-1 group">
+          <img src="assets/img/logo-removebg.png" alt="Pure Elegance Agency" class="h-16 sm:h-20 w-auto object-contain luxury-gold-logo">
         </a>
 
         <!-- Desktop Navigation -->
@@ -339,16 +346,28 @@ const indexContent = `
     </div>
   </section>
 
-  <!-- MARQUES & ÉVÉNEMENTS PARTENAIRES -->
-  <section class="py-7 bg-slate-100 border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-wrap items-center justify-center gap-8 md:gap-14 text-slate-700 font-extrabold text-sm sm:text-base tracking-wider uppercase">
-        <span>BURGER FEST</span>
-        <span>AKUNA CLUB</span>
-        <span>BRUNCH SOL</span>
-        <span>PRESTIGE / CASAMI</span>
-        <span>BÈLIDE MAGAZINE</span>
-        <span>GREEN VIBE</span>
+  <!-- MARQUES & ÉVÉNEMENTS PARTENAIRES (DÉFILEMENT INFINI FLUIDE DROITE À GAUCHE) -->
+  <section class="py-5 bg-slate-100 border-y border-slate-200/90 overflow-hidden relative">
+    <div class="animate-marquee flex items-center gap-10 whitespace-nowrap">
+      <div class="flex items-center gap-10 text-slate-800 font-extrabold text-sm sm:text-base tracking-widest uppercase">
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>BURGER FEST</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>AKUNA CLUB</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>BRUNCH SOL</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>PRESTIGE / CASAMI</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>BÈLIDE MAGAZINE</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>GREEN VIBE</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>GALA DES AMBASSADEURS</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>FASHION WEEK HAÏTI</span>
+      </div>
+      <div class="flex items-center gap-10 text-slate-800 font-extrabold text-sm sm:text-base tracking-widest uppercase" aria-hidden="true">
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>BURGER FEST</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>AKUNA CLUB</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>BRUNCH SOL</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>PRESTIGE / CASAMI</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>BÈLIDE MAGAZINE</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>GREEN VIBE</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>GALA DES AMBASSADEURS</span>
+        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>FASHION WEEK HAÏTI</span>
       </div>
     </div>
   </section>
@@ -369,65 +388,65 @@ const indexContent = `
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- Pôle 1: Mannequins -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow flex flex-col justify-between">
+        <div class="group bg-slate-50 hover:bg-white border border-slate-200 hover:border-amber-400/50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200/80 flex items-center justify-center mb-4">
+            <div class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center mb-4 shadow-sm group-hover:scale-105 group-hover:border-amber-500/50 transition-all">
               ${ICONS.mannequin}
             </div>
             <h3 class="text-lg font-bold text-slate-950 mb-2">Mannequins & Modèles</h3>
             <p class="text-xs text-slate-600 leading-relaxed mb-4">
-              Modèles professionnels pour défilés de haute couture, campagnes photo, lancements de marque et tournages.
+              Modèles professionnels pour défilés haute couture, shootings éditoriaux, campagnes publicitaires et lancements de marque.
             </p>
           </div>
-          <a href="prestations.html#mannequins" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1">
+          <a href="prestations.html#mannequins" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             Découvrir &rarr;
           </a>
         </div>
 
         <!-- Pôle 2: Hôtesses -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow flex flex-col justify-between">
+        <div class="group bg-slate-50 hover:bg-white border border-slate-200 hover:border-amber-400/50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <div class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center mb-4 shadow-sm group-hover:scale-105 group-hover:border-amber-500/50 transition-all">
+              ${ICONS.hotesse}
             </div>
             <h3 class="text-lg font-bold text-slate-950 mb-2">Hôtesses d'Accueil VIP</h3>
             <p class="text-xs text-slate-600 leading-relaxed mb-4">
-              Accueil protocolaire de prestige, gestion des listings VIP, remise de trophées et orientation fluide.
+              Accueil protocolaire d'honneur, gestion des listings invités VIP, remise de distinctions et orientation des personnalités.
             </p>
           </div>
-          <a href="prestations.html#hotesses" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1">
+          <a href="prestations.html#hotesses" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             Découvrir &rarr;
           </a>
         </div>
 
         <!-- Pôle 3: Serveurs -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow flex flex-col justify-between">
+        <div class="group bg-slate-50 hover:bg-white border border-slate-200 hover:border-amber-400/50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200/80 flex items-center justify-center mb-4">
+            <div class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center mb-4 shadow-sm group-hover:scale-105 group-hover:border-amber-500/50 transition-all">
               ${ICONS.serveur}
             </div>
             <h3 class="text-lg font-bold text-slate-950 mb-2">Serveurs & Bar d'Élite</h3>
             <p class="text-xs text-slate-600 leading-relaxed mb-4">
-              Service en salle distingué, personnel de bar qualifié et gestion des loges et salons VIP.
+              Service en salle distingué, personnel de bar qualifié, mixologie événementielle et service des salons d'honneur.
             </p>
           </div>
-          <a href="prestations.html#serveurs" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1">
+          <a href="prestations.html#serveurs" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             Découvrir &rarr;
           </a>
         </div>
 
         <!-- Pôle 4: Traiteur -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow flex flex-col justify-between">
+        <div class="group bg-slate-50 hover:bg-white border border-slate-200 hover:border-amber-400/50 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mb-4">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center mb-4 shadow-sm group-hover:scale-105 group-hover:border-amber-500/50 transition-all">
+              ${ICONS.traiteur}
             </div>
-            <h3 class="text-lg font-bold text-slate-950 mb-2">Service Traiteur</h3>
+            <h3 class="text-lg font-bold text-slate-950 mb-2">Service Traiteur Prestige</h3>
             <p class="text-xs text-slate-600 leading-relaxed mb-4">
-              Coordination gastronomique de réceptions : cocktails dînatoires, buffets et logistique de table.
+              Coordination gastronomique de réceptions : cocktails dînatoires, buffets d'exception, logistique culinaire et service de table.
             </p>
           </div>
-          <a href="prestations.html#traiteur" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1">
+          <a href="prestations.html#traiteur" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
             Découvrir &rarr;
           </a>
         </div>
