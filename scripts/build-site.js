@@ -1,9 +1,20 @@
 // scripts/build-site.js
-// Multi-page generator for Pure Elegance Agency
+// Multi-page generator for Pure Elegance Agency - Professional Luxury Edition
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
+
+// Professional SVG Icons (NO EMOJIS)
+const ICONS = {
+  mannequin: `<svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
+  hotesse: `<svg class="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>`,
+  serveur: `<svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>`,
+  traiteur: `<svg class="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
+  whatsapp: `<svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>`,
+  email: `<svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>`,
+  phone: `<svg class="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>`,
+};
 
 // Common components
 function getHeader(activePage = 'accueil') {
@@ -19,27 +30,27 @@ function getHeader(activePage = 'accueil') {
   const navLinksHtml = navItems.map(item => {
     const isActive = activePage === item.id;
     const activeClasses = isActive
-      ? 'text-white font-bold bg-white/10 border-b-2 border-amber-400'
-      : 'text-slate-300 hover:text-white hover:bg-white/5 font-medium';
+      ? 'text-slate-950 font-extrabold bg-slate-100 shadow-xs'
+      : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50 font-bold';
     return `<a href="${item.href}" class="px-3.5 py-2 rounded-lg text-sm transition-all ${activeClasses}">${item.label}</a>`;
   }).join('\n');
 
   const mobileNavLinksHtml = navItems.map(item => {
     const isActive = activePage === item.id;
     const activeClasses = isActive
-      ? 'text-white font-bold bg-slate-800 border-l-4 border-amber-400 pl-3'
-      : 'text-slate-300 hover:text-white hover:bg-slate-800/50 pl-4';
-    return `<a href="${item.href}" class="block py-3 text-base font-medium rounded-md transition-colors ${activeClasses}">${item.label}</a>`;
+      ? 'text-slate-950 font-extrabold bg-slate-100 border-l-4 border-slate-950 pl-3'
+      : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50 pl-4';
+    return `<a href="${item.href}" class="block py-3 text-base font-semibold rounded-md transition-colors ${activeClasses}">${item.label}</a>`;
   }).join('\n');
 
   return `
-  <!-- TOP BAR (INFO & CONTACT OFFICIEL) -->
-  <div class="bg-black text-slate-300 text-xs font-medium py-2 px-4 border-b border-slate-900">
+  <!-- TOP BAR (INFO & CONTACT OFFICIEL ISSUE DU POSTER PURE ELEGANCE) -->
+  <div class="bg-slate-950 text-slate-300 text-xs font-medium py-2.5 px-4 border-b border-slate-800">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-      <div class="flex items-center space-x-3 text-slate-400">
-        <span class="font-semibold text-slate-200">Mannequin • Hôtesse • Serveur • Service Traiteur</span>
-        <span class="hidden md:inline text-slate-700">|</span>
-        <span class="hidden md:inline text-amber-400/90 italic font-serif">Where elegance becomes a statement</span>
+      <div class="flex items-center space-x-3 text-slate-300">
+        <span class="font-bold text-white tracking-wide">Fourniture de personnels qualifiés</span>
+        <span class="hidden md:inline text-slate-600">•</span>
+        <span class="hidden md:inline text-slate-400">Hôtesses d'accueil • Serveurs • Mannequins • Modèles • Service traiteur</span>
       </div>
       <div class="flex items-center space-x-5 text-slate-300">
         <a href="https://instagram.com/pure.eleganceagency" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors flex items-center gap-1.5 font-medium">
@@ -47,22 +58,28 @@ function getHeader(activePage = 'accueil') {
           <span>@pure.eleganceagency</span>
         </a>
         <span>•</span>
-        <a href="https://wa.me/50947327551" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors flex items-center gap-1.5 font-semibold text-white">
-          <svg class="w-3.5 h-3.5 fill-current text-emerald-400" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-          <span>Réservations & Infos : (+509) 4732-7551</span>
+        <a href="https://wa.me/50947327551" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition-colors flex items-center gap-1.5 font-bold text-white">
+          <span class="text-emerald-400 font-bold">${ICONS.whatsapp}</span>
+          <span>(509) 4732 75 51</span>
         </a>
       </div>
     </div>
   </div>
 
-  <!-- SOLID NON-TRANSPARENT NAVBAR -->
-  <header class="solid-navbar w-full sticky top-0 z-50 bg-[#0B0F17] border-b border-slate-800 shadow-md">
+  <!-- SOLID WHITE NAVBAR (PROPRE, NET, MODERNE) -->
+  <header class="solid-navbar w-full sticky top-0 z-50 bg-white border-b border-slate-200/90 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         
-        <!-- Logo Officiel Transparent Direct -->
-        <a href="index.html" class="flex items-center py-2 group">
-          <img src="assets/img/logo-transparent.png" alt="Pure Elegance Agency" class="h-14 sm:h-16 w-auto object-contain group-hover:scale-105 transition-transform duration-300">
+        <!-- Logo Officiel dans Pill Sombre Haut de Gamme -->
+        <a href="index.html" class="flex items-center space-x-3.5 group">
+          <div class="h-12 px-3 py-1.5 rounded-xl bg-slate-950 flex items-center justify-center border border-slate-800 shadow-sm group-hover:border-amber-400 transition-all">
+            <img src="assets/img/logo-transparent.png" alt="Pure Elegance Agency" class="h-9 w-auto object-contain">
+          </div>
+          <div class="flex flex-col">
+            <span class="font-extrabold tracking-tight text-lg text-slate-950 uppercase leading-none">Pure Elegance</span>
+            <span class="text-[11px] font-bold tracking-wider text-amber-600 uppercase mt-0.5">Where elegance becomes a statement</span>
+          </div>
         </a>
 
         <!-- Desktop Navigation -->
@@ -72,14 +89,14 @@ function getHeader(activePage = 'accueil') {
 
         <!-- Right Action Button: Réserver une Équipe -->
         <div class="hidden lg:flex items-center space-x-3">
-          <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe%20pour%20un%20%C3%A9v%C3%A9nement." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-sm font-bold text-slate-950 bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-500 transition-all shadow-md hover:shadow-amber-500/20 group">
+          <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-sm font-bold text-white bg-slate-950 hover:bg-slate-800 transition-all shadow-sm hover:shadow group">
             <span>Réserver une Équipe</span>
-            <svg class="w-4 h-4 ml-1.5 text-slate-950 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <svg class="w-4 h-4 ml-1.5 text-amber-400 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
         </div>
 
         <!-- Mobile Menu Toggle Button -->
-        <button id="mobileMenuBtn" type="button" aria-label="Ouvrir le menu" class="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none">
+        <button id="mobileMenuBtn" type="button" aria-label="Ouvrir le menu" class="lg:hidden p-2 rounded-lg text-slate-700 hover:text-slate-950 hover:bg-slate-100 focus:outline-none">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path id="menuIconBars" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             <path id="menuIconClose" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -90,16 +107,16 @@ function getHeader(activePage = 'accueil') {
     </div>
 
     <!-- Mobile Navigation Drawer -->
-    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-800 bg-[#0B0F17] px-4 pt-3 pb-6 shadow-2xl">
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 shadow-xl animate-fadeIn">
       <div class="space-y-1">
         ${mobileNavLinksHtml}
       </div>
-      <div class="mt-5 pt-4 border-t border-slate-800 flex flex-col space-y-3">
-        <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="w-full text-center py-3 rounded-lg text-sm font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 shadow">
+      <div class="mt-5 pt-4 border-t border-slate-100 flex flex-col space-y-3">
+        <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="w-full text-center py-3 rounded-lg text-sm font-bold text-white bg-slate-950 hover:bg-slate-800 shadow">
           Réserver une Équipe via WhatsApp
         </a>
-        <a href="tel:+50947327551" class="w-full text-center py-2.5 rounded-lg text-sm font-semibold text-slate-300 bg-slate-900 border border-slate-700 flex items-center justify-center gap-2">
-          <span>Appeler (+509) 4732-7551</span>
+        <a href="tel:+50947327551" class="w-full text-center py-2.5 rounded-lg text-sm font-bold text-slate-800 bg-slate-100 border border-slate-200 flex items-center justify-center gap-2">
+          <span>Appeler (509) 4732 75 51</span>
         </a>
       </div>
     </div>
@@ -109,7 +126,7 @@ function getHeader(activePage = 'accueil') {
 
 function getFooter() {
   return `
-  <!-- UNIFIED FOOTER -->
+  <!-- UNIFIED LUXURY FOOTER -->
   <footer class="bg-[#0B0F17] text-white pt-16 pb-12 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -117,11 +134,13 @@ function getFooter() {
         <!-- Col 1: Brand & Slogan -->
         <div>
           <a href="index.html" class="inline-block mb-4">
-            <img src="assets/img/logo-transparent.png" alt="Pure Elegance Agency Logo" class="h-16 w-auto object-contain">
+            <div class="h-14 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 inline-flex items-center">
+              <img src="assets/img/logo-transparent.png" alt="Pure Elegance Agency Logo" class="h-10 w-auto object-contain">
+            </div>
           </a>
-          <p class="text-xs text-amber-400/90 font-serif italic mb-3">Where elegance becomes a statement</p>
+          <p class="text-xs text-amber-400 font-serif italic mb-3">Where elegance becomes a statement</p>
           <p class="text-sm text-slate-400 leading-relaxed mb-6">
-            Votre référence pour le déploiement de mannequins, d'hôtesses d'accueil VIP, de serveurs de prestige et de service traiteur événementiel en Haïti.
+            Fourniture de personnels qualifiés pour événements d'exception : Hôtesses d'accueil VIP, Serveurs de prestige, Mannequins, Modèles et Service traiteur en Haïti.
           </p>
           <div class="flex items-center space-x-3">
             <a href="https://instagram.com/pure.eleganceagency" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-amber-400 hover:border-slate-700 transition-colors" title="Instagram">
@@ -135,7 +154,7 @@ function getFooter() {
 
         <!-- Col 2: Navigation -->
         <div>
-          <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">Pages du Site</h4>
+          <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">Navigation</h4>
           <ul class="space-y-2.5 text-sm">
             <li><a href="index.html" class="text-slate-400 hover:text-white transition-colors">Accueil</a></li>
             <li><a href="prestations.html" class="text-slate-400 hover:text-white transition-colors">Nos Services</a></li>
@@ -146,36 +165,38 @@ function getFooter() {
           </ul>
         </div>
 
-        <!-- Col 3: Nos 4 Services Officiels -->
+        <!-- Col 3: Nos 4 Services Officiels (Clean Bullets, NO EMOJIS) -->
         <div>
           <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">Nos 4 Pôles d'Activité</h4>
           <ul class="space-y-2.5 text-sm text-slate-400">
-            <li>👠 Mannequins & Modèles</li>
-            <li>🧕 Hôtesses d'Accueil VIP</li>
-            <li>🍸 Serveurs & Mixologie</li>
-            <li>🥂 Service Traiteur Événementiel</li>
-            <li>✨ Régie & Encadrement Terrain</li>
+            <li>• Mannequins & Modèles</li>
+            <li>• Hôtesses d'Accueil VIP</li>
+            <li>• Serveurs & Mixologie</li>
+            <li>• Service Traiteur Événementiel</li>
+            <li>• Régie & Encadrement Terrain</li>
           </ul>
         </div>
 
-        <!-- Col 4: Contact Direct Officiel -->
+        <!-- Col 4: Contact Direct Officiel (Issue du Poster) -->
         <div>
           <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">Réservations & Infos</h4>
           <div class="space-y-3 text-sm text-slate-400">
-            <p class="flex items-start gap-2.5">
-              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-              <span class="text-white font-bold">(+509) 4732-7551</span>
+            <p class="flex items-center gap-2.5">
+              <span class="text-emerald-400">${ICONS.whatsapp}</span>
+              <span class="text-white font-bold">(509) 4732 75 51</span>
             </p>
-            <p class="flex items-start gap-2.5">
-              <svg class="w-4 h-4 text-pink-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/></svg>
+            <p class="flex items-center gap-2.5">
+              <span class="text-amber-400">${ICONS.email}</span>
+              <a href="mailto:hilairealissa8@gmail.com" class="text-slate-300 hover:text-white transition-colors">hilairealissa8@gmail.com</a>
+            </p>
+            <p class="flex items-center gap-2.5">
+              <span class="text-pink-400">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </span>
               <span>@pure.eleganceagency</span>
             </p>
-            <p class="flex items-start gap-2.5">
-              <svg class="w-4 h-4 text-slate-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              <span>Port-au-Prince • Pétion-Ville • Haïti</span>
-            </p>
             <div class="pt-2">
-              <a href="https://wa.me/50947327551" target="_blank" rel="noopener noreferrer" class="inline-block px-4 py-2 rounded bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider hover:bg-amber-300 transition-colors">
+              <a href="https://wa.me/50947327551" target="_blank" rel="noopener noreferrer" class="inline-block px-4 py-2 rounded-lg bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider hover:bg-amber-300 transition-colors">
                 Écrire sur WhatsApp &rarr;
               </a>
             </div>
@@ -184,10 +205,10 @@ function getFooter() {
 
       </div>
 
-      <!-- Bottom Bar : AUCUNE mention de personne, 100% PURE ELEGANCE AGENCY -->
+      <!-- Bottom Bar -->
       <div class="pt-8 mt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
         <p>&copy; ${new Date().getFullYear()} PURE ELEGANCE AGENCY©. Tous droits réservés.</p>
-        <p class="italic text-amber-400/80 font-serif">Where elegance becomes a statement</p>
+        <p class="italic text-amber-400 font-serif">Where elegance becomes a statement</p>
       </div>
 
     </div>
@@ -250,7 +271,7 @@ function wrapHtml(title, description, contentHtml, activePage = 'accueil') {
 }
 
 // -------------------------------------------------------------
-// 1. PAGE: INDEX.HTML (Accueil - Concis, percutant, pas un long scroll)
+// 1. PAGE: INDEX.HTML (Accueil - Concis, fluide, photos ultra HD)
 // -------------------------------------------------------------
 const indexContent = `
   <!-- HERO SECTION : MODERNE, FLUIDE, STYLE APPLE -->
@@ -261,7 +282,7 @@ const indexContent = `
         <!-- Left Column: Titre, Slogan et Action -->
         <div class="lg:col-span-7 space-y-6">
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-bold uppercase tracking-wider text-slate-800">
-            Party Entertainment Service • Port-au-Prince
+            Fourniture de personnels qualifiés • Port-au-Prince
           </div>
 
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-950 tracking-tight leading-[1.12]">
@@ -273,27 +294,34 @@ const indexContent = `
           </p>
 
           <p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl font-normal">
-            Pure Elegance Agency met à votre disposition des équipes sélectionnées avec rigueur : <strong>Mannequins, Hôtesses de prestige, Serveurs qualifiés et Service traiteur</strong> pour valoriser chacun de vos événements.
+            Pure Elegance Agency met à votre disposition des équipes sélectionnées avec rigueur : <strong>Hôtesses d'accueil, Serveurs, Mannequins, Modèles et Service traiteur</strong> pour valoriser chacun de vos événements.
           </p>
 
           <!-- Boutons d'Action Clairs -->
           <div class="flex flex-col sm:flex-row gap-4 pt-2">
-            <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-7 py-3.5 rounded-xl text-base font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-md gap-2 text-center">
+            <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-7 py-3.5 rounded-xl text-base font-bold text-white bg-slate-950 hover:bg-slate-800 transition-all shadow-md gap-2 text-center group">
               <span>Réserver une Équipe</span>
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              <svg class="w-4 h-4 text-amber-400 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </a>
             <a href="prestations.html" class="inline-flex items-center justify-center px-7 py-3.5 rounded-xl text-base font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all text-center">
               <span>Découvrir Nos Services</span>
             </a>
           </div>
 
-          <p class="text-xs text-slate-500 font-medium">
-            Contact direct réservations : <strong class="text-slate-800">(+509) 4732-7551</strong>
-          </p>
+          <!-- Contact Direct Pill -->
+          <div class="pt-1 flex flex-wrap items-center gap-4 text-xs text-slate-600 font-semibold">
+            <span class="inline-flex items-center gap-1.5 text-slate-900 font-bold">
+              ${ICONS.phone} (509) 4732 75 51
+            </span>
+            <span>•</span>
+            <span class="inline-flex items-center gap-1.5 text-slate-600">
+              ${ICONS.email} hilairealissa8@gmail.com
+            </span>
+          </div>
 
         </div>
 
-        <!-- Right Column: Vraies Photos d'Équipe en Action -->
+        <!-- Right Column: Vraies Photos d'Équipe en Ultra HD -->
         <div class="lg:col-span-5 relative">
           <div class="grid grid-cols-2 gap-3.5">
             <div class="space-y-3.5">
@@ -333,7 +361,7 @@ const indexContent = `
     </div>
   </section>
 
-  <!-- APERÇU RAPIDE DES 4 SERVICES -->
+  <!-- APERÇU RAPIDE DES 4 SERVICES AVEC LOGOS ET BADGES PROFESSIONNELS (SANS EMOJIS) -->
   <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
@@ -341,58 +369,82 @@ const indexContent = `
           <span class="text-xs font-bold tracking-widest text-slate-500 uppercase">Nos Métiers</span>
           <h2 class="text-3xl font-extrabold text-slate-950 mt-1">4 Pôles d'Excellence</h2>
         </div>
-        <a href="prestations.html" class="mt-3 md:mt-0 font-bold text-sm text-amber-600 hover:text-amber-700 flex items-center gap-1">
+        <a href="prestations.html" class="mt-3 md:mt-0 font-bold text-sm text-slate-900 hover:text-amber-600 flex items-center gap-1">
           Voir les détails de chaque prestation &rarr;
         </a>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
-        <!-- Pôle 1: Mannequin -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
-          <div class="text-2xl mb-3">👠</div>
-          <h3 class="text-lg font-bold text-slate-950 mb-2">Mannequins</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Modèles professionnels pour défilés, campagnes photo, lancements de marque et tournages visuels.
-          </p>
-          <a href="prestations.html#mannequins" class="text-xs font-bold text-slate-900 hover:text-amber-600">Découvrir &rarr;</a>
+        <!-- Pôle 1: Mannequins -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200/80 flex items-center justify-center mb-4">
+              ${ICONS.mannequin}
+            </div>
+            <h3 class="text-lg font-bold text-slate-950 mb-2">Mannequins & Modèles</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Modèles professionnels pour défilés de haute couture, campagnes photo, lancements de marque et tournages.
+            </p>
+          </div>
+          <a href="prestations.html#mannequins" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1">
+            Découvrir &rarr;
+          </a>
         </div>
 
-        <!-- Pôle 2: Hôtesse -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
-          <div class="text-2xl mb-3">🧕</div>
-          <h3 class="text-lg font-bold text-slate-950 mb-2">Hôtesses d'Accueil</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Accueil protocolaire VIP, gestion des listings invités, placement et animation de stands.
-          </p>
-          <a href="prestations.html#hotesses" class="text-xs font-bold text-slate-900 hover:text-amber-600">Découvrir &rarr;</a>
+        <!-- Pôle 2: Hôtesses -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-950 mb-2">Hôtesses d'Accueil VIP</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Accueil protocolaire de prestige, gestion des listings VIP, remise de trophées et orientation fluide.
+            </p>
+          </div>
+          <a href="prestations.html#hotesses" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1">
+            Découvrir &rarr;
+          </a>
         </div>
 
-        <!-- Pôle 3: Serveur -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
-          <div class="text-2xl mb-3">🍸</div>
-          <h3 class="text-lg font-bold text-slate-950 mb-2">Serveurs & Bar</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Service en salle distingué, personnel de bar et gestion des salons privés et loges VIP.
-          </p>
-          <a href="prestations.html#serveurs" class="text-xs font-bold text-slate-900 hover:text-amber-600">Découvrir &rarr;</a>
+        <!-- Pôle 3: Serveurs -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200/80 flex items-center justify-center mb-4">
+              ${ICONS.serveur}
+            </div>
+            <h3 class="text-lg font-bold text-slate-950 mb-2">Serveurs & Bar d'Élite</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Service en salle distingué, personnel de bar qualifié et gestion des loges et salons VIP.
+            </p>
+          </div>
+          <a href="prestations.html#serveurs" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1">
+            Découvrir &rarr;
+          </a>
         </div>
 
         <!-- Pôle 4: Traiteur -->
-        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
-          <div class="text-2xl mb-3">🥂</div>
-          <h3 class="text-lg font-bold text-slate-950 mb-2">Service Traiteur</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Coordination de buffets raffinés, cocktails dînatoires et logistique culinaire événementielle.
-          </p>
-          <a href="prestations.html#traiteur" class="text-xs font-bold text-slate-900 hover:text-amber-600">Découvrir &rarr;</a>
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-950 mb-2">Service Traiteur</h3>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              Coordination gastronomique de réceptions : cocktails dînatoires, buffets et logistique de table.
+            </p>
+          </div>
+          <a href="prestations.html#traiteur" class="text-xs font-bold text-slate-900 hover:text-amber-600 inline-flex items-center gap-1">
+            Découvrir &rarr;
+          </a>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- APERÇU RÉALISATIONS (4 PHOTOS RÉELLES ET PRÉCISES) -->
+  <!-- APERÇU RÉALISATIONS (PHOTOS ULTRA HD) -->
   <section class="py-16 bg-[#F8FAFC] border-t border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
@@ -407,7 +459,7 @@ const indexContent = `
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         
-        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/burger-fest.jpg" data-caption="Staffing Burger Fest">
+        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/burger-fest.jpg" data-caption="Staffing Burger Fest - Accueil et Billetterie">
           <img src="assets/img/activites/burger-fest.jpg" alt="Burger Fest" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
         </div>
 
@@ -428,16 +480,16 @@ const indexContent = `
   </section>
 
   <!-- BANNIÈRE RÉSERVATION DIRECTE -->
-  <section class="py-14 bg-[#0B0F17] text-white border-t border-slate-800">
+  <section class="py-14 bg-slate-950 text-white border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <p class="text-amber-400 font-serif italic text-sm mb-2">Where elegance becomes a statement</p>
       <h2 class="text-3xl font-extrabold">Vous préparez un événement d'envergure ?</h2>
       <p class="text-slate-400 mt-2 max-w-lg mx-auto text-sm">
-        Discutez directement de vos effectifs et exigences avec notre équipe de coordination.
+        Fourniture de personnels qualifiés : Hôtesses, Serveurs, Mannequins, Modèles et Service traiteur.
       </p>
       <div class="mt-6 flex flex-col sm:flex-row justify-center gap-4">
         <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="px-8 py-3.5 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-sm hover:bg-amber-300 transition-colors shadow">
-          Réserver via WhatsApp : (+509) 4732-7551
+          Réserver via WhatsApp : (509) 4732 75 51
         </a>
         <a href="contact.html" class="px-8 py-3.5 rounded-xl bg-slate-800 text-white font-bold text-sm hover:bg-slate-700 border border-slate-700 transition-colors">
           Voir Toutes Nos Coordonnées
@@ -448,7 +500,7 @@ const indexContent = `
 `;
 
 // -------------------------------------------------------------
-// 2. PAGE: PRESTATIONS.HTML (Nos 4 Services Détaillés avec Images Précises)
+// 2. PAGE: PRESTATIONS.HTML (Nos 4 Services Détaillés - Sans Emojis)
 // -------------------------------------------------------------
 const prestationsContent = `
   <!-- HEADER SECTION -->
@@ -460,7 +512,7 @@ const prestationsContent = `
           Services de Staffing & Événementiel
         </h1>
         <p class="text-base sm:text-lg text-slate-600 mt-3 leading-relaxed">
-          Quatre spécialités complémentaires pour assurer une tenue irréprochable et un service haut de gamme lors de vos rassemblements.
+          Fourniture de personnels qualifiés pour assurer une tenue irréprochable et un service haut de gamme lors de vos réceptions et rassemblements.
         </p>
       </div>
     </div>
@@ -474,7 +526,7 @@ const prestationsContent = `
       <div id="mannequins" class="bg-white rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-7 space-y-4">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-xs font-bold">
-            👠 Pôle Mannequinat & Image
+            Pôle Mannequinat & Modèles
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-950">Mannequins & Modèles</h2>
           <p class="text-slate-600 leading-relaxed text-sm">
@@ -502,7 +554,7 @@ const prestationsContent = `
         </div>
         <div class="lg:col-span-7 space-y-4">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-xs font-bold">
-            🧕 Pôle Accueil & Protocole VIP
+            Pôle Accueil & Protocole VIP
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-950">Hôtesses d'Accueil</h2>
           <p class="text-slate-600 leading-relaxed text-sm">
@@ -520,7 +572,7 @@ const prestationsContent = `
       <div id="serveurs" class="bg-white rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-7 space-y-4">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-xs font-bold">
-            🍸 Pôle Service & Salle
+            Pôle Service & Salle
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-950">Serveurs & Bar d'Élite</h2>
           <p class="text-slate-600 leading-relaxed text-sm">
@@ -548,7 +600,7 @@ const prestationsContent = `
         </div>
         <div class="lg:col-span-7 space-y-4">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-xs font-bold">
-            🥂 Pôle Gastronomie & Logistique
+            Pôle Gastronomie & Logistique
           </div>
           <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-950">Service Traiteur Événementiel</h2>
           <p class="text-slate-600 leading-relaxed text-sm">
@@ -567,7 +619,7 @@ const prestationsContent = `
     <!-- Bouton Réserver -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 text-center">
       <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20des%20services%20pour%20un%20%C3%A9v%C3%A9nement." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-slate-950 text-white font-bold text-sm hover:bg-slate-800 transition-colors shadow">
-        <span>Réserver ces services via WhatsApp (+509 4732-7551)</span>
+        <span>Réserver ces services via WhatsApp : (509) 4732 75 51</span>
         <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </a>
     </div>
@@ -607,7 +659,7 @@ const realisationsContent = `
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galleryGrid">
         
         <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="festival">
-          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/burger-fest.jpg" data-caption="Staffing Burger Fest - Accueil et billetterie">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/burger-fest.jpg" data-caption="Staffing Burger Fest - Accueil et Billetterie">
             <img src="assets/img/activites/burger-fest.jpg" alt="Burger Fest" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
           </div>
           <div class="p-4">
@@ -684,7 +736,7 @@ const agenceContent = `
           L'Agence Pure Elegance
         </h1>
         <p class="text-base text-slate-600 mt-3 leading-relaxed">
-          Spécialisée dans les métiers du spectacle, de l'accueil et du service événementiel, Pure Elegance Agency s'est imposée par sa rigueur, son écoute et la qualité irréprochable de son personnel.
+          Spécialisée dans la fourniture de personnels qualifiés pour réceptions et événements d'envergure, Pure Elegance Agency s'est imposée par sa rigueur, son écoute et la qualité irréprochable de son encadrement.
         </p>
       </div>
     </div>
@@ -805,7 +857,7 @@ const recrutementContent = `
 
           <div>
             <label class="block text-xs font-bold text-slate-800 mb-1">Pôle souhaité</label>
-            <select id="cRole" class="w-full rounded-xl border border-slate-300 py-2.5 px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-950">
+            <select id="cRole" class="w-full rounded-xl border border-slate-300 py-2.5 px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-950 font-medium">
               <option value="Hôtesse d'accueil VIP">Hôtesse d'accueil VIP</option>
               <option value="Mannequin / Modèle">Mannequin / Modèle</option>
               <option value="Serveur / Bar">Serveur / Bar</option>
@@ -814,7 +866,7 @@ const recrutementContent = `
           </div>
 
           <div class="pt-2">
-            <button type="button" id="btnPostulerWhatsApp" class="w-full py-3.5 px-4 rounded-xl font-bold text-sm text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors shadow">
+            <button type="button" id="btnPostulerWhatsApp" class="w-full py-3.5 px-4 rounded-xl font-bold text-sm text-white bg-slate-950 hover:bg-slate-800 transition-colors shadow">
               Envoyer ma candidature via WhatsApp
             </button>
           </div>
@@ -825,7 +877,7 @@ const recrutementContent = `
 `;
 
 // -------------------------------------------------------------
-// 6. PAGE: CONTACT.HTML (Contact & Réservations)
+// 6. PAGE: CONTACT.HTML (Contact & Réservations Directes)
 // -------------------------------------------------------------
 const contactContent = `
   <!-- HEADER SECTION -->
@@ -851,12 +903,24 @@ const contactContent = `
         <!-- WhatsApp -->
         <div class="bg-white rounded-2xl border border-slate-200 p-6 text-center shadow-xs">
           <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xl mx-auto mb-3">
-            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            ${ICONS.whatsapp}
           </div>
           <h3 class="font-bold text-slate-950 text-base mb-1">WhatsApp & Téléphone</h3>
           <p class="text-xs text-slate-500 mb-3">Réservations 7j/7</p>
           <a href="https://wa.me/50947327551" target="_blank" rel="noopener noreferrer" class="font-extrabold text-slate-950 text-sm hover:text-emerald-600 block">
-            (+509) 4732-7551
+            (509) 4732 75 51
+          </a>
+        </div>
+
+        <!-- Email -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 text-center shadow-xs">
+          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xl mx-auto mb-3">
+            ${ICONS.email}
+          </div>
+          <h3 class="font-bold text-slate-950 text-base mb-1">Courriel Officiel</h3>
+          <p class="text-xs text-slate-500 mb-3">Demandes écrites & dossiers</p>
+          <a href="mailto:hilairealissa8@gmail.com" class="font-extrabold text-slate-950 text-sm hover:text-amber-600 block">
+            hilairealissa8@gmail.com
           </a>
         </div>
 
@@ -870,16 +934,6 @@ const contactContent = `
           <a href="https://instagram.com/pure.eleganceagency" target="_blank" rel="noopener noreferrer" class="font-extrabold text-slate-950 text-sm hover:text-pink-600 block">
             @pure.eleganceagency
           </a>
-        </div>
-
-        <!-- Localisation -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 text-center shadow-xs">
-          <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center font-bold text-xl mx-auto mb-3">
-            📍
-          </div>
-          <h3 class="font-bold text-slate-950 text-base mb-1">Localisation</h3>
-          <p class="text-xs text-slate-500 mb-3">Interventions & déplacements</p>
-          <p class="font-bold text-slate-950 text-sm">Port-au-Prince • Pétion-Ville</p>
         </div>
 
       </div>
@@ -1013,11 +1067,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* SOLID NAVBAR: Non-transparente, nette et élégante */
+/* SOLID WHITE NAVBAR: Non-transparente, nette et élégante */
 .solid-navbar {
-  background-color: #0B0F17 !important;
-  border-bottom: 1px solid #1E293B;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -1042,15 +1096,15 @@ body {
 const pages = [
   {
     file: 'index.html',
-    title: 'Pure Elegance Agency | Mannequins, Hôtesses & Staffing Événementiel',
-    desc: 'Pure Elegance Agency - Agence de référence en Haïti pour Mannequins, Hôtesses d\'accueil, Serveurs et Service Traiteur. Where elegance becomes a statement.',
+    title: 'Pure Elegance Agency | Hôtesses, Serveurs, Mannequins & Traiteur',
+    desc: 'Fourniture de personnels qualifiés : Hôtesses d\'accueil, Serveurs, Mannequins, Modèles et Service traiteur en Haïti. (509) 4732 75 51.',
     content: indexContent,
     pageId: 'accueil'
   },
   {
     file: 'prestations.html',
     title: 'Nos Services & Prestations | Pure Elegance Agency',
-    desc: 'Mannequins, Hôtesses d\'accueil VIP, Serveurs qualifiés et Service traiteur événementiel en Haïti.',
+    desc: 'Fourniture de personnels qualifiés : Hôtesses d\'accueil VIP, Serveurs, Mannequins, Modèles et Service traiteur événementiel.',
     content: prestationsContent,
     pageId: 'prestations'
   },
@@ -1071,14 +1125,14 @@ const pages = [
   {
     file: 'recrutement.html',
     title: 'Castings & Rejoindre l\'Équipe | Pure Elegance Agency',
-    desc: 'Postulez aux prochains castings Pure Elegance Agency pour mannequins, hôtesses et personnel événementiel.',
+    desc: 'Postulez aux prochains castings Pure Elegance Agency pour hôtesses, serveurs, mannequins et personnel événementiel.',
     content: recrutementContent,
     pageId: 'recrutement'
   },
   {
     file: 'contact.html',
     title: 'Réservations & Contact | Pure Elegance Agency',
-    desc: 'Réservations directes : (+509) 4732-7551 • @pure.eleganceagency • Port-au-Prince, Haïti.',
+    desc: 'Réservations directes : (509) 4732 75 51 • hilairealissa8@gmail.com • @pure.eleganceagency • Port-au-Prince, Haïti.',
     content: contactContent,
     pageId: 'contact'
   }
@@ -1098,13 +1152,5 @@ for (const p of pages) {
   fs.writeFileSync(path.join(ROOT, p.file), fullHtml, 'utf8');
   console.log(`Generated: ${p.file}`);
 }
-
-// Remove old devis.html if present
-try {
-  if (fs.existsSync(path.join(ROOT, 'devis.html'))) {
-    fs.unlinkSync(path.join(ROOT, 'devis.html'));
-    console.log('Removed deprecated devis.html');
-  }
-} catch (e) {}
 
 console.log('All pages built successfully!');
