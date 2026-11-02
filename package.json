@@ -1,0 +1,21 @@
+{
+  "name": "pure-elegance-agency",
+  "version": "1.0.0",
+  "description": "Pure Elegance Agency - Official Model & Protocol Event Staffing Web Application",
+  "main": "index.html",
+  "scripts": {
+    "dev": "node scripts/dev-server.js",
+    "start": "node scripts/dev-server.js"
+  },
+  "dependencies": {
+    "@getpapillon/papicons": "^0.2.3"
+  },
+  "keywords": [
+    "react",
+    "pure-elegance-agency",
+    "model-agency",
+    "event-staffing"
+  ],
+  "author": "Pure Elegance Agency",
+  "license": "ISC"
+}
