@@ -7,8 +7,8 @@ const ROOT = path.join(__dirname, '..');
 
 // Professional SVG Icons (NO EMOJIS, HIGH LUXURY & ACCURATE)
 const ICONS = {
-  // Haute Couture & Mannequins : Étoile / Éclat Runway Diamant
-  mannequin: `<svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>`,
+  // Haute Couture & Mannequins : Diamant Prestige / Joaillerie Runway
+  mannequin: `<svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 3h12l4 7-10 11L2 10l4-7zM2 10h20M12 21L7.5 10M12 21l4.5-11M6 3l1.5 7M18 3l-1.5 7M9 3l3 7 3-7"/></svg>`,
   
   // Hôtesses d'Accueil VIP : Protocole, Accueil d'Honneur & Listing VIP
   hotesse: `<svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>`,
@@ -45,9 +45,9 @@ function getHeader(activePage = 'accueil') {
   const mobileNavLinksHtml = navItems.map(item => {
     const isActive = activePage === item.id;
     const activeClasses = isActive
-      ? 'text-slate-950 font-extrabold bg-slate-100 border-l-4 border-slate-950 pl-3'
-      : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50 pl-4';
-    return `<a href="${item.href}" class="block py-3 text-base font-semibold rounded-md transition-colors ${activeClasses}">${item.label}</a>`;
+      ? 'text-amber-400 font-extrabold text-2xl border-l-4 border-amber-400 pl-4 py-2 bg-slate-900/60 rounded-r-xl'
+      : 'text-slate-200 hover:text-white font-bold text-xl pl-4 py-2 hover:border-l-4 hover:border-amber-400/50 transition-all';
+    return `<a href="${item.href}" class="block ${activeClasses}">${item.label}</a>`;
   }).join('\n');
 
   return `
@@ -55,7 +55,7 @@ function getHeader(activePage = 'accueil') {
   <div class="bg-slate-950 text-slate-300 text-xs font-medium py-2.5 px-4 border-b border-slate-800">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
       <div class="flex items-center space-x-3 text-slate-300">
-        <span class="font-bold text-white tracking-wide">Fourniture de personnels qualifiés</span>
+        <span class="font-bold text-white tracking-wide">Personnel Événementiel de Prestige</span>
         <span class="hidden md:inline text-slate-600">•</span>
         <span class="hidden md:inline text-slate-400">Hôtesses d'accueil • Serveurs • Mannequins • Modèles • Service traiteur</span>
       </div>
@@ -97,29 +97,46 @@ function getHeader(activePage = 'accueil') {
         </div>
 
         <!-- Mobile Menu Toggle Button -->
-        <button id="mobileMenuBtn" type="button" aria-label="Ouvrir le menu" class="lg:hidden p-2 rounded-lg text-slate-700 hover:text-slate-950 hover:bg-slate-100 focus:outline-none">
+        <button id="mobileMenuBtn" type="button" aria-label="Ouvrir le menu" class="lg:hidden p-2.5 rounded-xl text-slate-800 hover:text-slate-950 hover:bg-slate-100 focus:outline-none border border-slate-200">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path id="menuIconBars" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            <path id="menuIconClose" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
 
       </div>
     </div>
 
-    <!-- Mobile Navigation Drawer -->
-    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 shadow-xl animate-fadeIn">
-      <div class="space-y-1">
+    <!-- FULLSCREEN MOBILE NAVIGATION OVERLAY (PREND TOUT L'ÉCRAN + BLOCAGE DU SCROLL ARRIÈRE-PLAN) -->
+    <div id="mobileMenu" class="fixed inset-0 z-[100] h-screen w-screen bg-slate-950/98 backdrop-blur-2xl hidden flex-col justify-between p-6 sm:p-8 overflow-y-auto">
+      
+      <!-- Top Bar inside Mobile Menu -->
+      <div class="flex items-center justify-between pb-6 border-b border-slate-800/80">
+        <a href="index.html" class="flex items-center">
+          <img src="assets/img/logo-removebg.png" alt="Pure Elegance Agency" class="h-14 w-auto object-contain luxury-gold-logo">
+        </a>
+        <button id="closeMobileMenuBtn" type="button" aria-label="Fermer le menu" class="p-2.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Nav Links Center -->
+      <div class="py-6 space-y-3">
         ${mobileNavLinksHtml}
       </div>
-      <div class="mt-5 pt-4 border-t border-slate-100 flex flex-col space-y-3">
-        <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="w-full text-center py-3 rounded-lg text-sm font-bold text-white bg-slate-950 hover:bg-slate-800 shadow">
-          Réserver une Équipe via WhatsApp
+
+      <!-- Bottom CTAs -->
+      <div class="pt-6 border-t border-slate-800/80 space-y-3">
+        <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="w-full py-3.5 rounded-xl text-center text-sm font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors shadow-lg flex items-center justify-center gap-2">
+          ${ICONS.whatsapp}
+          <span>Réserver une Équipe via WhatsApp</span>
         </a>
-        <a href="tel:+50947327551" class="w-full text-center py-2.5 rounded-lg text-sm font-bold text-slate-800 bg-slate-100 border border-slate-200 flex items-center justify-center gap-2">
-          <span>Appeler (509) 4732 75 51</span>
+        <a href="tel:+50947327551" class="w-full py-3 rounded-xl text-center text-sm font-semibold text-slate-300 bg-slate-900 border border-slate-800 flex items-center justify-center gap-2 hover:text-white">
+          ${ICONS.phone}
+          <span>Appeler le (509) 4732 75 51</span>
         </a>
+        <p class="text-center text-xs text-amber-400 font-serif italic pt-2">Where elegance becomes a statement</p>
       </div>
+
     </div>
   </header>
   `;
@@ -139,7 +156,7 @@ function getFooter() {
           </a>
           <p class="text-xs text-amber-400 font-serif italic mb-3">Where elegance becomes a statement</p>
           <p class="text-sm text-slate-400 leading-relaxed mb-6">
-            Fourniture de personnels qualifiés pour événements d'exception : Hôtesses d'accueil VIP, Serveurs de prestige, Mannequins, Modèles et Service traiteur en Haïti.
+            Votre agence de référence pour vos événements d'exception : Hôtesses d'accueil VIP, Serveurs de prestige, Mannequins, Modèles et Service traiteur en Haïti.
           </p>
           <div class="flex items-center space-x-3">
             <a href="https://instagram.com/pure.eleganceagency" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-amber-400 hover:border-slate-700 transition-colors" title="Instagram">
@@ -164,9 +181,9 @@ function getFooter() {
           </ul>
         </div>
 
-        <!-- Col 3: Nos 4 Services Officiels (Clean Bullets, NO EMOJIS) -->
+        <!-- Col 3: Nos Pôles d'Activités (Clean Bullets, NO EMOJIS) -->
         <div>
-          <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">Nos 4 Pôles d'Activité</h4>
+          <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">Nos Pôles d'Activités</h4>
           <ul class="space-y-2.5 text-sm text-slate-400">
             <li>• Mannequins & Modèles</li>
             <li>• Hôtesses d'Accueil VIP</li>
@@ -206,7 +223,7 @@ function getFooter() {
 
       <!-- Bottom Bar -->
       <div class="pt-8 mt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-        <p>&copy; ${new Date().getFullYear()} PURE ELEGANCE AGENCY©. Tous droits réservés.</p>
+        <p>&copy; ${new Date().getFullYear()} Pure Elegance Agency. Tous droits réservés.</p>
         <p class="italic text-amber-400 font-serif">Where elegance becomes a statement</p>
       </div>
 
@@ -256,6 +273,29 @@ function wrapHtml(title, description, contentHtml, activePage = 'accueil') {
 
   <!-- Editorial CSS -->
   <link rel="stylesheet" href="assets/css/editorial.css">
+  <style>
+    /* TRAIN MARQUEE - DÉFILEMENT CONTINU LENT DE DROITE À GAUCHE (COMME UN TRAIN QUI GLISSE DOUCEMENT) */
+    @keyframes marqueeTrain {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+    .train-marquee-container {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+      user-select: none;
+    }
+    .train-marquee-track {
+      display: inline-flex;
+      white-space: nowrap;
+      width: max-content;
+      animation: marqueeTrain 48s linear infinite;
+      will-change: transform;
+    }
+    .train-marquee-track:hover {
+      animation-play-state: paused;
+    }
+  </style>
 </head>
 <body class="bg-[#F8FAFC] text-slate-900 antialiased selection:bg-slate-900 selection:text-white flex flex-col min-h-screen">
   ${getHeader(activePage)}
@@ -281,7 +321,7 @@ const indexContent = `
         <!-- Left Column: Titre, Slogan et Action -->
         <div class="lg:col-span-7 space-y-6">
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-bold uppercase tracking-wider text-slate-800">
-            Fourniture de personnels qualifiés • Port-au-Prince
+            Staffing Événementiel de Prestige • Port-au-Prince
           </div>
 
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-950 tracking-tight leading-[1.12]">
@@ -325,18 +365,18 @@ const indexContent = `
           <div class="grid grid-cols-2 gap-3.5">
             <div class="space-y-3.5">
               <div class="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-[4/5] bg-slate-100">
-                <img src="assets/img/activites/burger-fest.jpg" alt="Équipe Pure Elegance à Burger Fest" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                <img src="assets/img/activites/burger-fest.jpg" alt="Équipe Pure Elegance à Burger Fest" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
               </div>
               <div class="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-square bg-slate-100">
-                <img src="assets/img/activites/serveur.jpg" alt="Service VIP Pure Elegance" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                <img src="assets/img/activites/equipe-reception.jpg" alt="Accueil VIP Pure Elegance" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
               </div>
             </div>
             <div class="space-y-3.5 pt-6">
               <div class="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-square bg-slate-100">
-                <img src="assets/img/activites/hotesse.jpg" alt="Hôtesses d'Accueil Pure Elegance" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                <img src="assets/img/activites/casami-event.jpg" alt="Hôtesses d'Accueil Casami" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
               </div>
               <div class="rounded-2xl overflow-hidden shadow-md border border-slate-200 aspect-[4/5] bg-slate-100">
-                <img src="assets/img/activites/soiree-gala.jpg" alt="Gala Pure Elegance Agency" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                <img src="assets/img/activites/gala-seduction.jpg" alt="Gala Pure Elegance Agency" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
               </div>
             </div>
           </div>
@@ -346,9 +386,9 @@ const indexContent = `
     </div>
   </section>
 
-  <!-- MARQUES & ÉVÉNEMENTS PARTENAIRES (DÉFILEMENT INFINI FLUIDE DROITE À GAUCHE) -->
-  <section class="py-5 bg-slate-100 border-y border-slate-200/90 overflow-hidden relative">
-    <div class="animate-marquee flex items-center gap-10 whitespace-nowrap">
+  <!-- MARQUES & ÉVÉNEMENTS PARTENAIRES (DÉFILEMENT CONTINU LENT DE DROITE À GAUCHE) -->
+  <section class="py-5 bg-slate-100 border-y border-slate-200/90 train-marquee-container">
+    <div class="train-marquee-track flex items-center gap-10 whitespace-nowrap">
       <div class="flex items-center gap-10 text-slate-800 font-extrabold text-sm sm:text-base tracking-widest uppercase">
         <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>BURGER FEST</span>
         <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-amber-500"></span>AKUNA CLUB</span>
@@ -470,20 +510,44 @@ const indexContent = `
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         
-        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/burger-fest.jpg" data-caption="Staffing Burger Fest - Accueil et Billetterie">
-          <img src="assets/img/activites/burger-fest.jpg" alt="Burger Fest" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <!-- Photo 1: Burger Fest (4 Hôtesses "YO TE PALE W AN") -->
+        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/burger-fest.jpg" data-caption="Staffing Burger Fest Haïti - Accueil & Billetterie">
+          <img src="assets/img/activites/burger-fest.jpg" alt="Burger Fest Haïti" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
         </div>
 
-        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/brunch-sol.jpg" data-caption="Brunch SOL - Hôtesses d'Accueil">
-          <img src="assets/img/activites/brunch-sol.jpg" alt="Brunch SOL" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <!-- Photo 2: Gala VIP Le Retour de la Séduction (Hôtesses en robes de soirée rouge & noir) -->
+        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/gala-seduction.jpg" data-caption="Gala VIP Le Retour de la Séduction - Hôtesses de Prestige">
+          <img src="assets/img/activites/gala-seduction.jpg" alt="Gala VIP Séduction" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
         </div>
 
-        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/serveur.jpg" data-caption="Service VIP & Soirée Akuna">
-          <img src="assets/img/activites/serveur.jpg" alt="Service VIP" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <!-- Photo 3: Accueil Événementiel en Salle (4 Hôtesses en chemisiers blancs & pantalons noirs) -->
+        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/equipe-reception.jpg" data-caption="Protocole Événementiel - Accueil & Gestion de salle">
+          <img src="assets/img/activites/equipe-reception.jpg" alt="Accueil en salle" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
         </div>
 
-        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/soiree-gala.jpg" data-caption="Soirée de Gala Pure Elegance">
-          <img src="assets/img/activites/soiree-gala.jpg" alt="Soirée de Gala" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        <!-- Photo 4: Compagnie des Tabacs Comme Il Faut (2 Hôtesses en polos noirs) -->
+        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/tabacs-commeilfaut.jpg" data-caption="Compagnie des Tabacs Comme Il Faut - Hôtesses Corporate">
+          <img src="assets/img/activites/tabacs-commeilfaut.jpg" alt="Comme Il Faut Corporate" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+        </div>
+
+        <!-- Photo 5: Casami Event (2 Hôtesses Casami) -->
+        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/casami-event.jpg" data-caption="Casami - Accueil & Animation Marque">
+          <img src="assets/img/activites/casami-event.jpg" alt="Casami Event" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+        </div>
+
+        <!-- Photo 6: Bèlide Magazine (4 Hôtesses en t-shirts Bèlide Magazine) -->
+        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/belide-magazine-team.jpg" data-caption="Bèlide Magazine - Équipe Terrain & RP">
+          <img src="assets/img/activites/belide-magazine-team.jpg" alt="Bèlide Magazine" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+        </div>
+
+        <!-- Photo 7: Heineken VIP Stand (Hôtesse devant stand Heineken) -->
+        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/heineken-vip.jpg" data-caption="Heineken VIP Lounge - Activation de marque">
+          <img src="assets/img/activites/heineken-vip.jpg" alt="Heineken VIP" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+        </div>
+
+        <!-- Photo 8: Green Vibe Festival (5 Hôtesses en polos verts et blancs) -->
+        <div class="rounded-xl overflow-hidden aspect-[4/3] bg-slate-200 border border-slate-200 group cursor-pointer lightbox-trigger" data-img="assets/img/activites/green-vibe-team.jpg" data-caption="Green Vibe Festival - Équipe Protocole">
+          <img src="assets/img/activites/green-vibe-team.jpg" alt="Green Vibe Festival" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
         </div>
 
       </div>
@@ -496,7 +560,7 @@ const indexContent = `
       <p class="text-amber-400 font-serif italic text-sm mb-2">Where elegance becomes a statement</p>
       <h2 class="text-3xl font-extrabold">Vous préparez un événement d'envergure ?</h2>
       <p class="text-slate-400 mt-2 max-w-lg mx-auto text-sm">
-        Fourniture de personnels qualifiés : Hôtesses, Serveurs, Mannequins, Modèles et Service traiteur.
+        Hôtesses d'accueil VIP, Serveurs de prestige, Mannequins & Service traiteur pour vos réceptions.
       </p>
       <div class="mt-6 flex flex-col sm:flex-row justify-center gap-4">
         <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="px-8 py-3.5 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-sm hover:bg-amber-300 transition-colors shadow">
@@ -523,7 +587,7 @@ const prestationsContent = `
           Services de Staffing & Événementiel
         </h1>
         <p class="text-base sm:text-lg text-slate-600 mt-3 leading-relaxed">
-          Fourniture de personnels qualifiés pour assurer une tenue irréprochable et un service haut de gamme lors de vos réceptions et rassemblements.
+          Des équipes d'élite sélectionnées et formées pour assurer une tenue irréprochable et un service haut de gamme lors de vos réceptions et rassemblements.
         </p>
       </div>
     </div>
@@ -551,7 +615,7 @@ const prestationsContent = `
         </div>
         <div class="lg:col-span-5">
           <div class="rounded-2xl overflow-hidden aspect-[4/3] bg-slate-100 border border-slate-200">
-            <img src="assets/img/activites/mannequin.jpg" alt="Mannequins Pure Elegance" class="w-full h-full object-cover">
+            <img src="assets/img/activites/mannequin.jpg" alt="Mannequins Pure Elegance" class="w-full h-full object-cover object-top">
           </div>
         </div>
       </div>
@@ -560,7 +624,7 @@ const prestationsContent = `
       <div id="hotesses" class="bg-white rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-5 order-last lg:order-first">
           <div class="rounded-2xl overflow-hidden aspect-[4/3] bg-slate-100 border border-slate-200">
-            <img src="assets/img/activites/hotesse.jpg" alt="Hôtesses d'Accueil Pure Elegance" class="w-full h-full object-cover">
+            <img src="assets/img/activites/burger-fest.jpg" alt="Hôtesses d'Accueil Pure Elegance" class="w-full h-full object-cover object-top">
           </div>
         </div>
         <div class="lg:col-span-7 space-y-4">
@@ -597,7 +661,7 @@ const prestationsContent = `
         </div>
         <div class="lg:col-span-5">
           <div class="rounded-2xl overflow-hidden aspect-[4/3] bg-slate-100 border border-slate-200">
-            <img src="assets/img/activites/serveur.jpg" alt="Service Soirée Pure Elegance" class="w-full h-full object-cover">
+            <img src="assets/img/activites/gala-seduction.jpg" alt="Service Soirée Pure Elegance" class="w-full h-full object-cover object-top">
           </div>
         </div>
       </div>
@@ -606,7 +670,7 @@ const prestationsContent = `
       <div id="traiteur" class="bg-white rounded-3xl border border-slate-200 p-8 sm:p-10 shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         <div class="lg:col-span-5 order-last lg:order-first">
           <div class="rounded-2xl overflow-hidden aspect-[4/3] bg-slate-100 border border-slate-200">
-            <img src="assets/img/activites/traiteur.jpg" alt="Service Traiteur et Réception" class="w-full h-full object-cover">
+            <img src="assets/img/activites/traiteur.jpg" alt="Service Traiteur et Réception" class="w-full h-full object-cover object-top">
           </div>
         </div>
         <div class="lg:col-span-7 space-y-4">
@@ -669,63 +733,102 @@ const realisationsContent = `
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galleryGrid">
         
+        <!-- Item 1: Burger Fest (T-Shirts YO TE PALE W AN) -->
         <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="festival">
-          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/burger-fest.jpg" data-caption="Staffing Burger Fest - Accueil et Billetterie">
-            <img src="assets/img/activites/burger-fest.jpg" alt="Burger Fest" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/burger-fest.jpg" data-caption="Staffing Burger Fest Haïti - Accueil & Billetterie">
+            <img src="assets/img/activites/burger-fest.jpg" alt="Burger Fest Haïti" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
           </div>
           <div class="p-4">
             <h3 class="font-bold text-sm text-slate-950">Burger Fest Haïti</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Staffing d'envergure & coordination</p>
+            <p class="text-xs text-slate-500 mt-0.5">Staffing d'envergure, accueil & billetterie</p>
           </div>
         </div>
 
+        <!-- Item 2: Gala Le Retour de la Séduction -->
         <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="soiree">
-          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/serveur.jpg" data-caption="Soirée VIP Akuna Club">
-            <img src="assets/img/activites/serveur.jpg" alt="Akuna Club" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/gala-seduction.jpg" data-caption="Gala VIP Le Retour de la Séduction - Hôtesses de Prestige">
+            <img src="assets/img/activites/gala-seduction.jpg" alt="Gala VIP Séduction" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
           </div>
           <div class="p-4">
-            <h3 class="font-bold text-sm text-slate-950">Akuna Club Lounge</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Hôtesses d'accueil VIP et service loges</p>
+            <h3 class="font-bold text-sm text-slate-950">Gala VIP Le Retour de la Séduction</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Hôtesses de prestige en tenues de gala</p>
           </div>
         </div>
 
+        <!-- Item 3: Accueil en salle -->
         <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="soiree">
-          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/brunch-sol.jpg" data-caption="Brunch SOL - Tenues Blanches">
-            <img src="assets/img/activites/brunch-sol.jpg" alt="Brunch SOL" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/equipe-reception.jpg" data-caption="Protocole Événementiel - Accueil & Gestion de salle">
+            <img src="assets/img/activites/equipe-reception.jpg" alt="Accueil en salle" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
           </div>
           <div class="p-4">
-            <h3 class="font-bold text-sm text-slate-950">Brunch SOL</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Accueil protocolaire en tenues blanches</p>
+            <h3 class="font-bold text-sm text-slate-950">Accueil Événementiel & Protocole</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Gestion des flux invités et remise de badges</p>
           </div>
         </div>
 
-        <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="soiree">
-          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/soiree-gala.jpg" data-caption="Gala Anniversaire Pure Elegance">
-            <img src="assets/img/activites/soiree-gala.jpg" alt="Gala Pure Elegance" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-          </div>
-          <div class="p-4">
-            <h3 class="font-bold text-sm text-slate-950">Gala Prestige Black Tie</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Soirée d'anniversaire & protocole d'exception</p>
-          </div>
-        </div>
-
+        <!-- Item 4: Compagnie des Tabacs Comme Il Faut -->
         <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="metiers">
-          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/mannequin.jpg" data-caption="Pôle Mannequinat & Shootings">
-            <img src="assets/img/activites/mannequin.jpg" alt="Mannequins" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/tabacs-commeilfaut.jpg" data-caption="Compagnie des Tabacs Comme Il Faut - Hôtesses Corporate">
+            <img src="assets/img/activites/tabacs-commeilfaut.jpg" alt="Comme Il Faut Corporate" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
           </div>
           <div class="p-4">
-            <h3 class="font-bold text-sm text-slate-950">Mannequinat & Shootings</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Défilés et valorisation d'image de marque</p>
+            <h3 class="font-bold text-sm text-slate-950">Compagnie des Tabacs Comme Il Faut</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Staffing corporate & animation de marque</p>
           </div>
         </div>
 
+        <!-- Item 5: Casami Event -->
         <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="metiers">
-          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/traiteur.jpg" data-caption="Service Traiteur Événementiel">
-            <img src="assets/img/activites/traiteur.jpg" alt="Traiteur" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/casami-event.jpg" data-caption="Casami - Accueil & Animation Marque">
+            <img src="assets/img/activites/casami-event.jpg" alt="Casami Event" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
           </div>
           <div class="p-4">
-            <h3 class="font-bold text-sm text-slate-950">Service Traiteur & Buffets</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Mise en place de cocktails et réceptions</p>
+            <h3 class="font-bold text-sm text-slate-950">Casami - Activation Événementielle</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Accueil et animation du stand de marque</p>
+          </div>
+        </div>
+
+        <!-- Item 6: Bèlide Magazine -->
+        <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="metiers">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/belide-magazine-team.jpg" data-caption="Bèlide Magazine - Équipe Terrain & RP">
+            <img src="assets/img/activites/belide-magazine-team.jpg" alt="Bèlide Magazine" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-sm text-slate-950">Bèlide Magazine - Relations Publiques</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Ambassadrices de marque & distribution presse</p>
+          </div>
+        </div>
+
+        <!-- Item 7: Heineken VIP Stand -->
+        <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="soiree">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/heineken-vip.jpg" data-caption="Heineken VIP Lounge - Activation de marque">
+            <img src="assets/img/activites/heineken-vip.jpg" alt="Heineken VIP" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-sm text-slate-950">Heineken Lounge VIP</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Animation d'espace VIP & service boisson</p>
+          </div>
+        </div>
+
+        <!-- Item 8: Green Vibe Festival -->
+        <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="festival">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/green-vibe-team.jpg" data-caption="Green Vibe Festival - Équipe Protocole">
+            <img src="assets/img/activites/green-vibe-team.jpg" alt="Green Vibe Festival" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-sm text-slate-950">Green Vibe Festival</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Protocole festivalier & encadrement des délégations</p>
+          </div>
+        </div>
+
+        <!-- Item 9: Match de Gala Football VIP -->
+        <div class="gallery-item bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-xs" data-category="soiree">
+          <div class="aspect-[4/3] bg-slate-100 overflow-hidden cursor-pointer lightbox-trigger" data-img="assets/img/activites/soccer-match-vip.jpg" data-caption="Match de Gala Football VIP - Accueil VIP & Loges">
+            <img src="assets/img/activites/soccer-match-vip.jpg" alt="Football Gala VIP" class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-sm text-slate-950">Soirée Sportive & Gala Football</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Accueil des personnalités et service des loges</p>
           </div>
         </div>
 
@@ -747,7 +850,7 @@ const agenceContent = `
           L'Agence Pure Elegance
         </h1>
         <p class="text-base text-slate-600 mt-3 leading-relaxed">
-          Spécialisée dans la fourniture de personnels qualifiés pour réceptions et événements d'envergure, Pure Elegance Agency s'est imposée par sa rigueur, son écoute et la qualité irréprochable de son encadrement.
+          Spécialisée dans le staffing événementiel et l'accueil d'exception pour réceptions d'envergure, Pure Elegance Agency s'est imposée par sa rigueur, son écoute et la qualité irréprochable de son encadrement.
         </p>
       </div>
     </div>
@@ -1108,14 +1211,14 @@ const pages = [
   {
     file: 'index.html',
     title: 'Pure Elegance Agency | Hôtesses, Serveurs, Mannequins & Traiteur',
-    desc: 'Fourniture de personnels qualifiés : Hôtesses d\'accueil, Serveurs, Mannequins, Modèles et Service traiteur en Haïti. (509) 4732 75 51.',
+    desc: 'Personnel événementiel de prestige en Haïti : Hôtesses d\'accueil VIP, Serveurs, Mannequins & Traiteur. Contact : (+509) 4732-7551.',
     content: indexContent,
     pageId: 'accueil'
   },
   {
     file: 'prestations.html',
     title: 'Nos Services & Prestations | Pure Elegance Agency',
-    desc: 'Fourniture de personnels qualifiés : Hôtesses d\'accueil VIP, Serveurs, Mannequins, Modèles et Service traiteur événementiel.',
+    desc: 'Services événementiels haut de gamme : Hôtesses d\'accueil VIP, Serveurs de prestige, Mannequins et Service traiteur.',
     content: prestationsContent,
     pageId: 'prestations'
   },
