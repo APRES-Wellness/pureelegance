@@ -45,9 +45,9 @@ function getHeader(activePage = 'accueil') {
   const mobileNavLinksHtml = navItems.map(item => {
     const isActive = activePage === item.id;
     const activeClasses = isActive
-      ? 'text-amber-400 font-extrabold text-2xl border-l-4 border-amber-400 pl-4 py-2 bg-slate-900/60 rounded-r-xl'
-      : 'text-slate-200 hover:text-white font-bold text-xl pl-4 py-2 hover:border-l-4 hover:border-amber-400/50 transition-all';
-    return `<a href="${item.href}" class="block ${activeClasses}">${item.label}</a>`;
+      ? 'text-slate-950 font-extrabold text-2xl border-l-4 border-amber-500 pl-4 py-3 bg-amber-50/80 rounded-r-2xl'
+      : 'text-slate-900 hover:text-amber-600 font-bold text-xl pl-4 py-3 hover:bg-slate-50 rounded-xl transition-all border-l-4 border-transparent hover:border-amber-400';
+    return `<a href="${item.href}" class="block mobile-nav-link ${activeClasses}">${item.label}</a>`;
   }).join('\n');
 
   return `
@@ -106,35 +106,35 @@ function getHeader(activePage = 'accueil') {
       </div>
     </div>
 
-    <!-- FULLSCREEN MOBILE NAVIGATION OVERLAY (PREND TOUT L'ÉCRAN + BLOCAGE DU SCROLL ARRIÈRE-PLAN) -->
-    <div id="mobileMenu" class="fixed inset-0 z-[100] h-screen w-screen bg-slate-950/98 backdrop-blur-2xl hidden flex-col justify-between p-6 sm:p-8 overflow-y-auto">
+    <!-- FULLSCREEN MOBILE NAVIGATION OVERLAY (FOND BLANC DUR, 100% OPAQUE + BLOCAGE TOTAL DU SCROLL ARRIÈRE-PLAN) -->
+    <div id="mobileMenu" class="fixed inset-0 z-[9999] w-full h-[100dvh] bg-white hidden flex-col justify-between p-6 sm:p-8 overflow-y-auto" style="background-color: #ffffff;">
       
       <!-- Top Bar inside Mobile Menu -->
-      <div class="flex items-center justify-between pb-6 border-b border-slate-800/80">
+      <div class="flex items-center justify-between pb-5 border-b border-slate-200">
         <a href="index.html" class="flex items-center">
-          <img src="assets/img/logo-removebg.png" alt="Pure Elegance Agency" class="h-14 w-auto object-contain luxury-gold-logo">
+          <img src="assets/img/logo-removebg.png" alt="Pure Elegance Agency" class="h-14 sm:h-16 w-auto object-contain luxury-gold-logo">
         </a>
-        <button id="closeMobileMenuBtn" type="button" aria-label="Fermer le menu" class="p-2.5 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        <button id="closeMobileMenuBtn" type="button" aria-label="Fermer le menu" class="w-11 h-11 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 hover:text-slate-950 flex items-center justify-center transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <!-- Nav Links Center -->
-      <div class="py-6 space-y-3">
+      <!-- Nav Links Center (Textes noirs nets, fond blanc dur) -->
+      <div class="py-6 space-y-2">
         ${mobileNavLinksHtml}
       </div>
 
       <!-- Bottom CTAs -->
-      <div class="pt-6 border-t border-slate-800/80 space-y-3">
-        <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="w-full py-3.5 rounded-xl text-center text-sm font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors shadow-lg flex items-center justify-center gap-2">
+      <div class="pt-6 border-t border-slate-200 space-y-3">
+        <a href="https://wa.me/50947327551?text=Bonjour%20Pure%20Elegance%20Agency,%20je%20souhaite%20r%C3%A9server%20une%20%C3%A9quipe." target="_blank" rel="noopener noreferrer" class="w-full py-4 rounded-xl text-center text-sm font-extrabold text-slate-950 bg-amber-400 hover:bg-amber-300 transition-colors shadow-md flex items-center justify-center gap-2">
           ${ICONS.whatsapp}
           <span>Réserver une Équipe via WhatsApp</span>
         </a>
-        <a href="tel:+50947327551" class="w-full py-3 rounded-xl text-center text-sm font-semibold text-slate-300 bg-slate-900 border border-slate-800 flex items-center justify-center gap-2 hover:text-white">
+        <a href="tel:+50947327551" class="w-full py-3.5 rounded-xl text-center text-sm font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center gap-2 transition-colors">
           ${ICONS.phone}
           <span>Appeler le (509) 4732 75 51</span>
         </a>
-        <p class="text-center text-xs text-amber-400 font-serif italic pt-2">Where elegance becomes a statement</p>
+        <p class="text-center text-xs text-amber-600 font-serif italic pt-1">Where elegance becomes a statement</p>
       </div>
 
     </div>
@@ -294,6 +294,11 @@ function wrapHtml(title, description, contentHtml, activePage = 'accueil') {
     }
     .train-marquee-track:hover {
       animation-play-state: paused;
+    }
+    /* Mobile Menu Drawer - Fond blanc dur 100% opaque, aucun défilement arrière */
+    #mobileMenu {
+      background-color: #ffffff !important;
+      opacity: 1 !important;
     }
   </style>
 </head>
